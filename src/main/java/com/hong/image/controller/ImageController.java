@@ -24,7 +24,6 @@ import lombok.extern.log4j.Log4j;
 public class ImageController {
 
 	@Autowired
-	@Setter(onMethod_ = {@Autowired})
 	private ImageService imageServiceImpl;
 	
 	
@@ -67,7 +66,34 @@ public class ImageController {
 		vo.setFileName(FileUtil.upload("/upload/image", vo.getImageFile(), request));
 		
 		imageServiceImpl.write(vo);
+		
+		// 이미지가 업로드 되는 시간을 벌어서 기다리는 처리를 한다.
+		Thread.sleep(2000);
+		
 		return "redirect:list.do?perPageNum=" + perPageNum;
+	}
+	
+	// imageChange
+	@PostMapping("/imageChange.do")
+	public String imageChange(PageObject pageObject, ImageVO vo, HttpServletRequest request) throws Exception{
+		
+		// 서버에 파일 업로드
+		vo.setFileName(FileUtil.upload("/upload/image", vo.getImageFile(), request)); 
+		
+		// DB에 수정한다.
+		imageServiceImpl.imageChange(vo);
+		
+		// 원래 파일은 지운다.
+		FileUtil.remove(FileUtil.getRealPath("", vo.getDeleteName(), request));
+		
+		// 이미지가 업로드 되는 시간을 벌어서 기다리는 처리르 한다.
+		Thread.sleep(2000);
+		
+		return "redirect:view.do?no=" + vo.getNo() 
+				+ "&page=" + pageObject.getPage()
+				+ "&perPageNum=" + pageObject.getPerPageNum()
+				+ "&key=" + pageObject.getKey()
+				+ "&word=" + pageObject.getWord();				
 	}
 	
 	// update Form - g
@@ -81,22 +107,33 @@ public class ImageController {
 	
 	// update - p
 	@PostMapping("/update.do")
-	public String update(ImageVO vo) throws Exception {
+	public String update(ImageVO vo, PageObject pageObject) throws Exception {
 		log.info("이미지 게시판 수정 처리");
 		
 		imageServiceImpl.update(vo);
-		return "redirect:view.do?no=10";
+		
+		log.info(pageObject);
+		
+		// 검색처리를 하면서 key와 word를 확인해야 합니다.
+		return "redirect:view.do?no=" + vo.getNo() 
+				+ "&page=" + pageObject.getPage()
+				+ "&perPageNum=" + pageObject.getPerPageNum()
+				+ "&key=" + pageObject.getKey()
+				+ "&word=" + pageObject.getWord();
 	}
 	
 	// delete - g
 	@GetMapping("/delete.do")
-	public String delete(ImageVO vo) throws Exception {
+	public String delete(ImageVO vo, HttpServletRequest request, int perPageNum) throws Exception {
 		log.info("이미지 게시판 삭제");
 		
 		// DB에서 데이터에서 데이터 삭제
 		imageServiceImpl.delete(vo.getNo());
+		
 		// 파일 삭제
-		return "redirect:list.do";
+		FileUtil.remove(FileUtil.getRealPath("", vo.getDeleteName(), request));
+		
+		return "redirect:list.do?perPageNum=" + perPageNum;
 	}
 	
 }

@@ -26,7 +26,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public List<ImageVO> view(long no) throws Exception {
+	public ImageVO view(long no) throws Exception {
 		// TODO Auto-generated method stub
 		return mapper.view(no);
 	}

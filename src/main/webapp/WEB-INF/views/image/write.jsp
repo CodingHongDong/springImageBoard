@@ -5,6 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>이미지 게시판 등록</title>
+<script type="text/javascript">
+$(function() {
+	$("#cancelBtn").click(function() {
+		history.back();
+	});
+});
+</script>
 </head>
 <body>
 <div class="container">

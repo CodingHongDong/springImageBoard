@@ -8,6 +8,12 @@
 <head>
 <meta charset="UTF-8">
 <title>이미지 게시판 리스트</title>
+<style type="text/css">
+.dataRow:hover {
+	background: #eee;
+	cursor: pointer;
+}
+</style>
 <script type="text/javascript">
 $(function() {
 	$(".dataRow").click(function() {
@@ -18,12 +24,36 @@ $(function() {
 					+ "&key=${pageObject.key}"
 					+ "&word=${pageObject.word}"
 	});
+	var key = "${pageObject.key}";
+	if(!key) key = "t";
+	$("#key").val(key);
 })
 </script>
 </head>
 <body>
 <div class="container">
 	<h2>이미지 게시판 리스트</h2>
+	<form class="form-inline">
+		<div class="input-group">
+			<select class="form-control" name="key" id="key">
+				<option value="t">제목</option>
+				<option value="c">내용</option>
+				<option value="f">파일</option>
+				<option value="tc">제목/내용</option>
+				<option value="tf">제목/파일</option>
+				<option value="cf">내용/파일</option>
+				<option value="tdf">모두</option>
+			</select>
+		</div>
+	  <div class="input-group">
+	    <input type="text" class="form-control" placeholder="Search" name="word" value="${pageObject.word}">
+	    <div class="input-group-btn">
+	      <button class="btn btn-default" type="submit">
+	        <i class="glyphicon glyphicon-search"></i>
+	      </button>
+	    </div>
+	  </div>
+	</form>
 	
 	<!-- 한줄 시작 -->
 	 <div class="row">

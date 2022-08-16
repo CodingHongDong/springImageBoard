@@ -10,7 +10,8 @@
 			select rownum rnum, no, title, id, writeDate, fileName 
 			from(
 				select no, title, id, writeDate, fileName 
-				from image 
+				from image
+				<include refid="search" /> 
 				order by no desc 
 			)
 		) where rnum between #{startRow} and #{endRow}
@@ -20,13 +21,31 @@
 	<select id="getTotalRow" resultType="long">
 		select count(*) 
 		from image 
+		<include refid="search" />
 	</select>
+
+	<sql id="search">
+		<!-- 검색을 해야할 때(word가 비어있지 않을 때) where문을 붙인다. -->
+		<if test="word != null and word != ''">
+			<!-- or, like -->
+			where 1=0
+				<if test="key.indexOf('t'.toString()) >= 0">
+					or title like ${"'%" + word + "%'"}
+				</if>
+				<if test="key.indexOf('c'.toString()) >= 0">
+					or content like ${"'%" + word + "%'"}
+				</if>
+				<if test="key.indexOf('f'.toString()) >= 0">
+					or fileName like ${"'%" + word + "%'"}
+				</if>
+		</if>			
+	</sql>
 
 	<!-- 글보기 -->
 	<select id="view" resultType="com.hong.image.vo.ImageVO">
 		select no, title, content, id, writeDate, fileName 
 		from image 
-		where no = #{no}
+		where no=#{no}
 	</select>
 
 	<!-- imageChange 처리 -->

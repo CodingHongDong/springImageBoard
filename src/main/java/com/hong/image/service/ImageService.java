@@ -11,7 +11,7 @@ public interface ImageService {
 	public List<ImageVO> list(PageObject pageObject) throws Exception;
 	
 	// view
-	public List<ImageVO> view(long no) throws Exception;
+	public ImageVO view(long no) throws Exception;
 	
 	// imageChange 처리
 	public int imageChange(ImageVO vo) throws Exception;
