@@ -72,6 +72,11 @@ $(function() {
 		<a href="list.do?page=${param.page}&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}" 
 		class="btn btn-default">리스트</a>
 	</div>
+	
+	<!-- 댓글이 있는 부분 -->
+	<%@ include file="imageReply.jsp" %>
+	
 </div>
+
 </body>
 </html>

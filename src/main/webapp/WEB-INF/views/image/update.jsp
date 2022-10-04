@@ -15,8 +15,10 @@ $(function(){
 </head>
 <body>
 <div class="container">
+<h2>Fitness board > 글수정</h2>
+<form action="update.do" method="post">
+<div class="container">
 	<h2>이미지 게시판 수정</h2>
-	<form method="post">
 		<input type="hidden" name="page" value="${param.page}">
 		<input type="hidden" name="perPageNum" value="${param.perPageNum }">
 		<div class="form-group">
@@ -34,7 +36,8 @@ $(function(){
 		<button>등록</button>
 		<button type="reset">새로입력</button>
 		<button type="button" id="cancelBtn">취소</button>
-	</form>
+</div>
+</form>
 </div>
 </body>
 </html>
