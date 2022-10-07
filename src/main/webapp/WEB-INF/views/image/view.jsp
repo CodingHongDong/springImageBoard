@@ -6,6 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>이미지 게시판 보기</title>
+<!-- 댓글 객체인 replyService를 가져오자. - 처리하는 함수만 존재. 호출이 없다. -->
+<script type="text/javascript" src="/resources/js/reply.js"></script>
+<!-- 댓글 이벤트처리 / replyService를 호출해서 서버에서 DB처리하는 것을 가져오자 -->
+<script type="text/javascript" src="/resources/js/reply.js"></script>
 <style type="text/css">
 #imageChangeDiv{
 	display: none;
@@ -29,6 +33,12 @@ $(function() {
 	});
 	
 });
+</script>
+<script type="text/javascript">
+	replyService.list();
+	replyService.write();
+	replyService.update();
+	replyService.delete();
 </script>
 </head>
 <body>
